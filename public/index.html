@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffcc00">
+<title>Despachante Credenciado | Atendimento</title>
+<style>
+:root{--yellow:#ffcc00;--black:#101010;--muted:#b9b9b9;--panel:#191919}
+*{box-sizing:border-box}body{margin:0;background:#0c0c0c;color:#fff;font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+header{background:linear-gradient(120deg,#ffcc00 0 12%,#101010 12% 88%,#ffcc00 88%);padding:32px 18px;text-align:center;border-bottom:4px solid var(--yellow)}
+.brand{font-size:clamp(28px,5vw,52px);font-weight:900;font-style:italic;letter-spacing:-1.5px}.brand span{display:inline-block;background:var(--yellow);color:#111;padding:0 12px;border-radius:8px}
+header p{margin:8px 0 0;color:#eee}.wrap{width:min(960px,92%);margin:28px auto}.notice{border:1px solid #4c4100;background:#201d0c;border-radius:12px;padding:14px 16px;color:#f6e7a0;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}.card{background:var(--panel);border:1px solid #333;border-radius:16px;padding:22px;box-shadow:0 12px 35px #0005}.card h2{margin-top:0;color:var(--yellow)}label{display:block;font-weight:700;margin:14px 0 6px}input,select,textarea{width:100%;border:1px solid #4a4a4a;border-radius:9px;background:#0e0e0e;color:white;padding:12px;font:inherit}textarea{min-height:90px;resize:vertical}.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#ddd;margin:16px 0}.consent input{width:auto;margin-top:5px}.btn{border:0;background:var(--yellow);color:#111;font-weight:800;border-radius:9px;padding:13px 16px;cursor:pointer;width:100%;font-size:16px}.btn:hover{filter:brightness(.92)}.secondary{background:#333;color:#fff}.message{display:none;margin-top:14px;padding:14px;border-radius:9px;background:#16351e;color:#baf5c7}.error{background:#401b1b;color:#ffc1c1}.small{font-size:13px;color:#bbb}.contact{color:var(--yellow);font-weight:bold;text-decoration:none;overflow-wrap:anywhere}.admin-list{display:grid;gap:12px;margin-top:16px}.request{border:1px solid #3b3b3b;border-radius:10px;padding:14px;background:#111}.request p{margin:5px 0}.request select{margin-top:8px}footer{text-align:center;color:#888;padding:25px 12px;border-top:1px solid #292929;margin-top:30px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}header{background:#101010;border-top:8px solid var(--yellow)}}
+</style></head>
+<body>
+<header><div class="brand">DESPACHANTE <span>CREDENCIADO</span></div><p>Atendimento e orientação para serviços de trânsito</p></header>
+<main class="wrap">
+<div class="notice"><strong>Importante:</strong> este formulário é para solicitar contato e orientação. A emissão ou renovação de CNH depende dos procedimentos oficiais do Detran e dos órgãos competentes. Não emitimos documentos por fora dos canais oficiais.</div>
+<div class="grid">
+<section class="card">
+<h2>Solicitar atendimento</h2>
+<p class="small">Preencha seus dados de contato. Nossa equipe retornará para explicar os próximos passos oficiais.</p>
+<form id="requestForm">
+<label for="name">Nome completo *</label><input id="name" name="name" autocomplete="name" required maxlength="100">
+<label for="phone">WhatsApp para contato *</label><input id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(84) 99999-9999" required maxlength="30">
+<label for="service">Serviço desejado *</label><select id="service" name="service" required><option value="">Selecione</option><option>Primeira habilitação</option><option>Renovação da CNH</option><option>Adição ou mudança de categoria</option><option>Regularização / consulta de veículo</option><option>Outro serviço de trânsito</option></select>
+<label for="category">Categoria de interesse *</label><select id="category" name="category" required><option value="">Selecione</option><option value="A">A — motocicleta</option><option value="B">B — carro</option><option value="AB">AB — carro e motocicleta</option><option value="Outro">Ainda não sei / outro</option></select>
+<label for="notes">Observações (opcional)</label><textarea id="notes" name="notes" maxlength="500" placeholder="Conte brevemente como podemos ajudar. Não envie números de documentos aqui."></textarea>
+<label class="consent"><input type="checkbox" name="consent" required><span>Autorizo o uso destes dados de contato para retorno sobre esta solicitação e li o aviso de privacidade.</span></label>
+<button class="btn" type="submit">Enviar solicitação</button><div id="formMessage" class="message" role="status"></div>
+</form>
+</section>
+<aside class="card">
+<h2>Fale com a equipe</h2>
+<p><strong>Responsável pelo atendimento:</strong><br>Diogo Andrade</p>
+<p><strong>WhatsApp de suporte:</strong><br><a class="contact" id="whatsLink" href="https://wa.me/5584998286504" target="_blank" rel="noopener">84 99828-6504</a></p>
+<p>Após o envio, a equipe analisará sua solicitação e entrará em contato pelo telefone informado.</p>
+<hr style="border-color:#333;margin:22px 0">
+<h2>Área administrativa</h2>
+<p class="small">Acesso restrito à equipe autorizada para consultar solicitações e atualizar o andamento.</p>
+<button class="btn secondary" id="showAdmin" type="button">Entrar no sistema administrativo</button>
+<div id="adminPanel" hidden>
+<form id="loginForm">
+<label for="username">Usuário</label><input id="username" name="username" autocomplete="username" required>
+<label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="current-password" required>
+<button class="btn" style="margin-top:14px" type="submit">Entrar</button><div id="loginMessage" class="message" role="status"></div>
+</form>
+<div id="dashboard" hidden><p><strong>Solicitações recebidas</strong></p><button class="btn secondary" id="refresh" type="button">Atualizar lista</button><button class="btn secondary" id="logout" type="button" style="margin-top:8px">Sair</button><div id="requests" class="admin-list"></div></div>
+</div>
+</aside>
+</div>
+</main>
+<footer>Despachante Credenciado • Atendimento sujeito às regras e procedimentos oficiais aplicáveis.</footer>
+<script>
+const form = document.getElementById('requestForm');
+const formMessage = document.getElementById('formMessage');
+function showMessage(el, text, isError=false){el.textContent=text;el.className='message'+(isError?' error':'');el.style.display='block';}
+form.addEventListener('submit', async e=>{
+ e.preventDefault(); const data=Object.fromEntries(new FormData(form).entries()); data.consent=form.elements.consent.checked;
+ try{
+  const r=await fetch('/api/solicitacoes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  const result=await r.json(); if(!r.ok) throw new Error(result.error||'Não foi possível enviar.');
+  form.reset(); showMessage(formMessage,'Cadastro enviado! Nossa equipe entrará em contato pelo telefone informado.');
+ }catch(err){showMessage(formMessage,err.message||'Erro de conexão. Tente novamente.',true);}
+});
+const adminPanel=document.getElementById('adminPanel'), loginForm=document.getElementById('loginForm'), dashboard=document.getElementById('dashboard');
+document.getElementById('showAdmin').addEventListener('click',()=>{adminPanel.hidden=!adminPanel.hidden;});
+loginForm.addEventListener('submit',async e=>{
+ e.preventDefault(); const data=Object.fromEntries(new FormData(loginForm).entries());
+ try{const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Falha no login');loginForm.hidden=true;dashboard.hidden=false;await loadRequests();}
+ catch(err){showMessage(document.getElementById('loginMessage'),err.message,true);}
+});
+async function loadRequests(){
+ const box=document.getElementById('requests');box.textContent='Carregando...';
+ try{const r=await fetch('/api/admin/solicitacoes');if(!r.ok)throw new Error('Sessão encerrada. Entre novamente.');const rows=await r.json();box.replaceChildren();
+ if(!rows.length){box.textContent='Nenhuma solicitação recebida ainda.';return;}
+ rows.forEach(item=>{
+  const card=document.createElement('div');card.className='request';
+  const add=(label,value)=>{const p=document.createElement('p');const b=document.createElement('strong');b.textContent=label+': ';p.append(b,document.createTextNode(value||'—'));card.append(p);};
+  add('Nome',item.name);add('WhatsApp',item.phone);add('Serviço',item.service);add('Categoria',item.category);add('Observações',item.notes);add('Recebido em',new Date(item.createdAt).toLocaleString('pt-BR'));
+  const sel=document.createElement('select');['Novo','Em atendimento','Concluído'].forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent='Status: '+s;o.selected=item.status===s;sel.append(o);});
+  sel.addEventListener('change',async()=>{await fetch('/api/admin/solicitacoes/'+encodeURIComponent(item.id),{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:sel.value})});});
+  card.append(sel);box.append(card);
+ });
+ }catch(err){box.textContent=err.message;}
+}
+document.getElementById('refresh').addEventListener('click',loadRequests);
+document.getElementById('logout').addEventListener('click',async()=>{await fetch('/api/admin/logout',{method:'POST'});loginForm.hidden=false;dashboard.hidden=true;loginForm.reset();});
+</script></body></html>
